@@ -66,7 +66,6 @@ df.drop(columns=["Cabin"], inplace=True)
 
 # Mengecek kembali apakah masih ada missing value
 print("\nMissing Value Setelah Cleaning:")
-
 print(df.isnull().sum())
 
 # Mengecek jumlah data sebelum menghapus duplikat
@@ -133,7 +132,6 @@ scaler = StandardScaler()
 
 # Melakukan standardisasi data
 X_scaled = scaler.fit_transform(X)
-
 print("Standardisasi data berhasil dilakukan.")
 
 # =================
@@ -145,22 +143,18 @@ print("ELBOW METHOD")
 print("=" * 50)
 
 wcss = []
-
 for i in range(1, 11):
     kmeans = KMeans(
         n_clusters=i,
         random_state=42,
         n_init=10
     )
-
     kmeans.fit(X_scaled)
     wcss.append(kmeans.inertia_)
 
 # Membuat grafik Elbow Method
 plt.figure(figsize=(8,5))
-
 plt.plot(range(1,11), wcss, marker='o')
-
 plt.title("Elbow Method")
 plt.xlabel("Jumlah Cluster")
 plt.ylabel("WCSS")
@@ -168,9 +162,7 @@ plt.grid(True)
 
 # Simpan gambar
 plt.savefig("hasil/elbow_method.png")
-
 plt.show()
-
 print("Grafik Elbow Method berhasil disimpan.")
 
 # ========================
@@ -187,12 +179,9 @@ kmeans = KMeans(
     random_state=42,
     n_init=10
 )
-
 # Melakukan clustering
 df["Cluster"] = kmeans.fit_predict(X_scaled)
-
 print("\nJumlah data pada setiap cluster:")
-
 print(df["Cluster"].value_counts().sort_index())
 
 # =======================
@@ -202,11 +191,8 @@ print(df["Cluster"].value_counts().sort_index())
 print("\n" + "=" * 50)
 print("SILHOUETTE SCORE")
 print("=" * 50)
-
 score = silhouette_score(X_scaled, df["Cluster"])
-
 print(f"Silhouette Score : {score:.3f}")
-
 with open("hasil/silhouette_score.txt", "w") as file:
     file.write(f"Silhouette Score : {score:.3f}")
 
@@ -215,7 +201,6 @@ with open("hasil/silhouette_score.txt", "w") as file:
 # =================================
 
 df.to_csv("hasil/hasil_cluster.csv", index=False)
-
 print("\nHasil clustering berhasil disimpan.")
 
 # ===========================
@@ -223,23 +208,17 @@ print("\nHasil clustering berhasil disimpan.")
 # ===========================
 
 plt.figure(figsize=(8,6))
-
 plt.scatter(
     df["Age"],
     df["Fare"],
     c=df["Cluster"]
 )
-
 plt.xlabel("Age")
 plt.ylabel("Fare")
 plt.title("Hasil Clustering K-Means")
-
 plt.grid(True)
-
 plt.savefig("hasil/scatter_plot.png")
-
 plt.show()
-
 print("\nScatter Plot berhasil disimpan.")
 
 print("\nPROGRAM SELESAI")
@@ -247,7 +226,6 @@ print("\nPROGRAM SELESAI")
 print("\n"+"="*55)
 print("PROGRAM BERHASIL DIJALANKAN")
 print("="*55)
-
 print("File yang dihasilkan:")
 print("- elbow_method.png")
 print("- scatter_plot.png")
